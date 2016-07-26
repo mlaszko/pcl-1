@@ -44,6 +44,7 @@
 #include <pcl/sample_consensus/sac_model_cylinder.h>
 #include <pcl/sample_consensus/sac_model_circle.h>
 #include <pcl/sample_consensus/sac_model_circle3d.h>
+#include <pcl/sample_consensus/sac_model_ellipse.h>
 #include <pcl/sample_consensus/sac_model_normal_sphere.h>
 
 using namespace pcl;

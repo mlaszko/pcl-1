@@ -57,6 +57,7 @@
 #include <pcl/sample_consensus/sac_model.h>
 #include <pcl/sample_consensus/sac_model_circle.h>
 #include <pcl/sample_consensus/sac_model_circle3d.h>
+#include <pcl/sample_consensus/sac_model_ellipse.h>
 #include <pcl/sample_consensus/sac_model_cone.h>
 #include <pcl/sample_consensus/sac_model_cylinder.h>
 #include <pcl/sample_consensus/sac_model_line.h>
@@ -176,6 +177,20 @@ pcl::SACSegmentation<PointT>::initSACModel (const int model_type)
         model_circle->setRadiusLimits (radius_min_, radius_max_);
       }
       break;
+    }
+    case SACMODEL_ELLIPSE2D:
+    {
+        PCL_DEBUG ("[pcl::%s::initSACModel] Using a model of type: SACMODEL_ELLIPSE2D\n", getClassName ().c_str ());
+        model_.reset (new SampleConsensusModelEllipse2D<PointT> (input_, *indices_, random_));
+        typename SampleConsensusModelEllipse2D<PointT>::Ptr model_ellipse = boost::static_pointer_cast<SampleConsensusModelEllipse2D<PointT> > (model_);
+        double min_radius, max_radius;
+        model_ellipse->getRadiusLimits (min_radius, max_radius);
+        if (radius_min_ != min_radius && radius_max_ != max_radius)
+        {
+          PCL_DEBUG ("[pcl::%s::initSACModel] Setting radius limits to %f/%f\n", getClassName ().c_str (), radius_min_, radius_max_);
+          model_ellipse->setRadiusLimits (radius_min_, radius_max_);
+        }
+        break;
     }
     case SACMODEL_CIRCLE3D:
     {
